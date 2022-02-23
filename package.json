@@ -1,0 +1,27 @@
+{
+  "name": "smart-pure",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./server/index.js",
+    "dev1": "webpack --mode production -w",
+    "dev2": "tsc -w",
+    "dev3": "nodemon ./server/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "interactjs": "^1.10.11",
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.20",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2"
+  }
+}
