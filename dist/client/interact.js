@@ -36,8 +36,6 @@ exports.interactjs = (0, interactjs_1.default)(".panel")
             x += event.deltaRect.left;
             y += event.deltaRect.top;
             target.style.transform = "translate(" + x + "px," + y + "px)";
-            console.log("x", x);
-            console.log("y", y);
             target.setAttribute("data-x", x);
             target.setAttribute("data-y", y);
             localStorage.setItem("data-x", String(x));

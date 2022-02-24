@@ -35,3 +35,13 @@ export interface SmartTemperatureSensor {
   connectionState: connectionStateType;
   temperature: number; // in Celsius
 }
+
+export type deviceUnion = SmartBulb | SmartOutlet | SmartTemperatureSensor;
+
+export interface ServerToClientEvents {
+  "device-change": (device: deviceUnion) => void;
+  hello: () => void;
+}
+export interface ClientToServerEvents {
+  "show-device": (deviceId: string) => void;
+}

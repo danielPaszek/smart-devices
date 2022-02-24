@@ -38,8 +38,6 @@ export const interactjs = interact(".panel")
         y += event.deltaRect.top;
 
         target.style.transform = "translate(" + x + "px," + y + "px)";
-        console.log("x", x);
-        console.log("y", y);
         target.setAttribute("data-x", x);
         target.setAttribute("data-y", y);
         localStorage.setItem("data-x", String(x));

@@ -28,31 +28,50 @@ const socket_io_1 = require("socket.io");
 const path = __importStar(require("path"));
 const app = (0, express_1.default)();
 const server = (0, http_1.createServer)(app);
-const io = new socket_io_1.Server(server, { serveClient: false });
+const io = new socket_io_1.Server(server, {
+    serveClient: false,
+});
+const changeDevice = (device) => {
+    if (device.type === "bulb") {
+        device.brightness = Math.floor(Math.random() * (100 - 1)) + 1;
+        device.isTurnedOn = !device.isTurnedOn;
+    }
+    if (device.type === "outlet") {
+        device.powerConsumption = Math.floor(Math.random() * (100 - 1)) + 1;
+        device.isTurnedOn = !device.isTurnedOn;
+    }
+    if (device.type === "temperatureSensor") {
+        device.temperature = Math.floor(Math.random() * (100 - 1)) + 1;
+    }
+};
 const timers = {};
-app.use("/static", express_1.default.static("./static"));
+app.use("/static", express_1.default.static(path.resolve(__dirname, "../../static")));
 app.get("/", (req, res) => {
-    const fileDirectory = path.resolve(__dirname, "../static");
+    const fileDirectory = path.resolve(__dirname, "../../static");
     res.sendFile("index.html", { root: fileDirectory });
 });
 app.get("/api/v1/devices", (req, res) => {
     res.json(devicesData);
 });
 app.get("/api/v1/devices/:id", (req, res) => {
-    res.json(devicesData[Number(req.params.id)]);
+    res.json(devicesDataDetails[Number(req.params.id)]);
 });
 io.on("connection", (socket) => {
     console.log(socket.id);
     socket.on("show-device", (id) => {
         console.log("show device");
         const timer = setInterval(() => {
-            console.log("log");
-            io.to(socket.id).emit("device-change", devicesData[Number(id)]);
-        }, 2000);
+            console.log("change");
+            changeDevice(devicesDataDetails[Number(id)]);
+            io.to(socket.id).emit("device-change", devicesDataDetails[Number(id)]);
+        }, 8000);
         if (timers[socket.id]) {
             clearInterval(timers[socket.id]);
         }
         timers[socket.id] = timer;
+    });
+    socket.on("disconnect", () => {
+        clearInterval(timers[socket.id]);
     });
 });
 server.listen(3000, () => console.log("listining on port 3000"));
@@ -92,5 +111,57 @@ const devicesData = [
         id: "5",
         name: "piąty",
         type: "outlet",
+    },
+];
+const devicesDataDetails = [
+    {
+        connectionState: "connected",
+        id: "0",
+        name: "zerowy",
+        type: "bulb",
+        brightness: 10,
+        color: "red",
+        isTurnedOn: true,
+    },
+    {
+        connectionState: "connected",
+        id: "1",
+        name: "pierwszy",
+        type: "bulb",
+        brightness: 20,
+        color: "blue",
+        isTurnedOn: false,
+    },
+    {
+        connectionState: "poorConnection",
+        id: "2",
+        name: "drugi",
+        type: "outlet",
+        isTurnedOn: true,
+        powerConsumption: 50,
+    },
+    {
+        connectionState: "disconnected",
+        id: "3",
+        name: "trzeci",
+        type: "temperatureSensor",
+        temperature: 100,
+    },
+    {
+        connectionState: "connected",
+        id: "4",
+        name: "czwarty",
+        type: "bulb",
+        brightness: 30,
+        color: "green",
+        isTurnedOn: true,
+    },
+    {
+        connectionState: "connected",
+        id: "5",
+        name: "piąty",
+        type: "outlet",
+        isTurnedOn: true,
+        powerConsumption: 20,
     },
 ];

@@ -20,11 +20,16 @@
   font-size: large;
   font-weight: 500;
 }
-.panel > div {
-  font-weight: 400;
-  font-size: large;
+.panel__span2 {
+  color: azure;
 }
-
+.panel__span1 {
+  color: rgb(164, 205, 240);
+}
+.panel__div {
+  font-size: 1.5rem;
+  font-weight: medium;
+}
 .panel__icon {
   position: absolute;
   top: 40%;

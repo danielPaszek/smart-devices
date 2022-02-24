@@ -20,8 +20,37 @@ socket.on("connect", () => {
     console.log(socket.id);
 });
 socket.on("device-change", (device) => {
-    console.log(device);
+    // console.log(device);
+    createPanel(device, device.type);
 });
+const createPanel = (data, type) => {
+    console.log(typeof data.isTurnedOn);
+    if (!panel) {
+        alert("Something went wrong!");
+        return;
+    }
+    panel.innerHTML = "";
+    Object.keys(data).forEach((key) => {
+        const element = document.createElement("div");
+        element.classList.add("panel__div");
+        element.innerHTML = `<span class="panel__span1">${key}:</span> <span class="panel__span2">${data[key]}</span>`;
+        panel.appendChild(element);
+    });
+    const icon = document.createElement("div");
+    icon.classList.add("panel__icon");
+    if (type === "bulb") {
+        icon.innerHTML = iconBulb;
+        icon.style.color = data.color;
+    }
+    else if (type === "outlet") {
+        icon.innerHTML = iconOutlet;
+        icon.style.color = data.isTurnedOn ? "yellow" : "gray";
+    }
+    else {
+        icon.innerHTML = iconTemperature;
+    }
+    panel.appendChild(icon);
+};
 const handleListClick = (id, type) => __awaiter(void 0, void 0, void 0, function* () {
     if (!panel) {
         alert("Something went wrong!");
@@ -29,29 +58,8 @@ const handleListClick = (id, type) => __awaiter(void 0, void 0, void 0, function
     }
     panel.innerHTML = "loading...";
     const result = yield (yield fetch("/api/v1/devices/" + id)).json();
-    console.log("TU");
     socket.emit("show-device", id);
-    panel.innerHTML = "";
-    Object.keys(result).forEach((key) => {
-        const element = document.createElement("div");
-        element.id = key;
-        element.innerHTML = result[key];
-        panel.appendChild(element);
-    });
-    const icon = document.createElement("div");
-    icon.classList.add("panel__icon");
-    if (type === "bulb") {
-        icon.innerHTML = iconBulb;
-        icon.style.color = result.color;
-    }
-    else if (type === "outlet") {
-        icon.innerHTML = iconOutlet;
-        icon.style.color = result.isTurnedOn ? "yellow" : "gray";
-    }
-    else {
-        icon.innerHTML = iconTemperature;
-    }
-    panel.appendChild(icon);
+    createPanel(result, type);
 });
 //
 const init = () => __awaiter(void 0, void 0, void 0, function* () {
