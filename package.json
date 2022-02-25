@@ -2,7 +2,7 @@
   "name": "smart-pure",
   "version": "1.0.0",
   "description": "",
-  "main": ".dist/server/index.js",
+  "main": "./dist/server/index.js",
   "scripts": {
     "start": "node ./dist/server/index.js",
     "dev1": "webpack --mode production -w",
