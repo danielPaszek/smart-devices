@@ -2,12 +2,12 @@
   "name": "smart-pure",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": ".dist/server/index.js",
   "scripts": {
-    "start": "node ./server/index.js",
+    "start": "node ./dist/server/index.js",
     "dev1": "webpack --mode production -w",
     "dev2": "tsc -w",
-    "dev3": "nodemon ./server/index.js"
+    "dev3": "nodemon ./dist/server/index.js"
   },
   "keywords": [],
   "author": "",

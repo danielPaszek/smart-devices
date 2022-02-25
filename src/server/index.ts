@@ -15,7 +15,13 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents>(server, {
   serveClient: false,
 });
 
+const connectionStates = [
+  "connected",
+  "disconnected",
+  "poorConnection",
+] as const;
 const changeDevice = (device: any) => {
+  device.connectionState = connectionStates[Math.floor(Math.random() * 3)];
   if (device.type === "bulb") {
     device.brightness = Math.floor(Math.random() * (100 - 1)) + 1;
     device.isTurnedOn = !device.isTurnedOn;
@@ -54,7 +60,7 @@ io.on("connection", (socket) => {
       console.log("change");
       changeDevice(devicesDataDetails[Number(id)]);
       io.to(socket.id).emit("device-change", devicesDataDetails[Number(id)]);
-    }, 8000);
+    }, 2000);
     if (timers[socket.id]) {
       clearInterval(timers[socket.id]);
     }

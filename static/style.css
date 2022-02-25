@@ -36,3 +36,26 @@
   left: 10%;
   transform: scale(3);
 }
+.panel__header {
+  color: rgb(164, 205, 240);
+  font-size: 1.75rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: rgb(164, 205, 240);
+  text-underline-offset: 2px;
+}
+.panel__header > span {
+  color: white !important;
+  text-transform: capitalize;
+}
+.panel__btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: large;
+  font-weight: 500;
+  z-index: 10;
+}
+.panel__close {
+  display: none !important;
+}
