@@ -80,7 +80,7 @@ io.on("connection", (socket) => {
         clearInterval(timers[socket.id]);
     });
 });
-server.listen(3000, () => console.log("listining on port 3000"));
+server.listen(process.env.PORT || 3000, () => console.log("listining on port 3000"));
 const devicesData = [
     {
         connectionState: "connected",
